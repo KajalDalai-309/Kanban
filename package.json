@@ -1,0 +1,17 @@
+{
+  "name": "realtime-kanban",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-time collaborative Kanban board with multi-organization, multi-tenant isolation",
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n api,web -c blue,green \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "seed": "npm --prefix server run seed",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server test && npm --prefix client test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
