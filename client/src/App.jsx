@@ -257,12 +257,18 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
           <aside className="sidebar">
             <div className="tabs" role="tablist">
               {['activity', 'members'].map((t) => (
-                <button key={t} role="tab" aria-selected={side === t} className={side === t ? 'active' : ''} onClick={() => setSide(t)}>
+                <button
+                  key={t}
+                  role="tab"
+                  aria-selected={side === t}
+                  className={`tab-btn ${side === t ? 'active' : ''}`}
+                  onClick={() => setSide(t)}
+                >
                   {t === 'activity' ? 'Activity' : `Members (${ws.members.length})`}
                 </button>
               ))}
               <button
-                className="icon-btn sidebar-close-btn"
+                className="sidebar-close-btn"
                 onClick={toggleSidebar}
                 title="Minimize sidebar"
                 aria-label="Minimize sidebar"

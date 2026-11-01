@@ -146,10 +146,10 @@ textarea { resize: vertical; }
 .empty-state { margin: 48px auto; text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; max-width: 420px; }
 
 /* ----- sidebar ----- */
-.sidebar { width: 300px; flex: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-.tabs { display: flex; border-bottom: 1px solid var(--border); }
-.tabs button { flex: 1; padding: 10px; border: 0; background: transparent; cursor: pointer; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; }
-.tabs button.active { color: var(--text); border-bottom-color: var(--primary); }
+.sidebar { width: 310px; flex: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.tabs { display: flex; align-items: center; border-bottom: 1px solid var(--border); padding-right: 6px; }
+.tabs .tab-btn { flex: 1; padding: 10px 8px; border: 0; background: transparent; cursor: pointer; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; white-space: nowrap; font-size: 13px; text-align: center; }
+.tabs .tab-btn.active { color: var(--text); border-bottom-color: var(--primary); }
 .feed, .member-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; }
 .feed li { padding: 10px 14px; border-bottom: 1px solid var(--border); }
 .members { overflow-y: auto; display: flex; flex-direction: column; }
@@ -181,7 +181,7 @@ textarea { resize: vertical; }
 .toast-error { background: #991b1b; }
 .toast .icon-btn { color: #fff; }
 
-.sidebar-close-btn { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 0 10px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; margin-right: 4px; }
+.sidebar-close-btn { flex: none; width: 24px; height: 24px; border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 0; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; margin-left: 2px; }
 .sidebar-close-btn:hover { background: var(--surface-2); color: var(--text); }
 .sidebar-collapsed-strip { width: 34px; flex: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer; padding: 14px 4px; color: var(--muted); transition: all 0.15s ease; }
 .sidebar-collapsed-strip:hover { background: var(--surface-2); color: var(--text); border-color: var(--primary); }
