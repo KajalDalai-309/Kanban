@@ -98,7 +98,11 @@ textarea { resize: vertical; }
 .workspace { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; flex-wrap: wrap; }
 .main { flex: 1; min-height: 0; display: flex; gap: 12px; padding: 0 16px 16px; }
-.board { flex: 1; min-width: 0; display: flex; gap: 12px; overflow-x: auto; align-items: flex-start; padding-bottom: 8px; }
+.board { flex: 1; min-width: 0; display: flex; gap: 12px; overflow-x: auto; align-items: flex-start; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: var(--border) var(--surface-2); }
+.board::-webkit-scrollbar { height: 8px; }
+.board::-webkit-scrollbar-track { background: var(--surface-2); border-radius: 4px; }
+.board::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.board::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 .presence { display: flex; align-items: center; gap: 10px; margin-left: 8px; }
 .avatars { display: flex; padding-left: 6px; }
 .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
@@ -177,9 +181,14 @@ textarea { resize: vertical; }
 .toast-error { background: #991b1b; }
 .toast .icon-btn { color: #fff; }
 
+.sidebar-close-btn { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 0 10px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; margin-right: 4px; }
+.sidebar-close-btn:hover { background: var(--surface-2); color: var(--text); }
+.sidebar-collapsed-strip { width: 34px; flex: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer; padding: 14px 4px; color: var(--muted); transition: all 0.15s ease; }
+.sidebar-collapsed-strip:hover { background: var(--surface-2); color: var(--text); border-color: var(--primary); }
+.sidebar-collapsed-strip .strip-icon { font-size: 13px; font-weight: bold; }
+.sidebar-collapsed-strip .strip-label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
 @media (max-width: 900px) {
-  .main { flex-direction: column; overflow-y: auto; }
-  .sidebar { width: 100%; max-height: 320px; flex: none; }
-  .board { flex: none; }
   .user-name { display: none; }
+  .sidebar { width: 260px; }
 }

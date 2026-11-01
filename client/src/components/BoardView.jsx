@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ConfirmModal, PromptModal } from './Dialogs.jsx';
 import TaskCard from './TaskCard.jsx';
 
@@ -122,7 +122,19 @@ export default function BoardView({ state, grouped, members, canEditColumns, sel
   const [dragId, setDragId] = useState(null);
   const [drop, setDrop] = useState(null); // { columnId, index }
   const [addingColumn, setAddingColumn] = useState(false);
+  const boardRef = useRef(null);
+  const prevCountRef = useRef(state.columns?.length ?? 0);
   const membersById = useMemo(() => Object.fromEntries(members.map((m) => [m.id, m])), [members]);
+
+  useEffect(() => {
+    const cur = state.columns?.length ?? 0;
+    if (cur > prevCountRef.current && boardRef.current) {
+      setTimeout(() => {
+        boardRef.current?.scrollTo({ left: boardRef.current.scrollWidth, behavior: 'smooth' });
+      }, 60);
+    }
+    prevCountRef.current = cur;
+  }, [state.columns?.length]);
 
   const clear = () => {
     setDragId(null);
@@ -174,7 +186,7 @@ export default function BoardView({ state, grouped, members, canEditColumns, sel
   }
 
   return (
-    <div className="board">
+    <div className="board" ref={boardRef}>
       {state.columns.map((column, i) => (
         <Column
           key={column.id}

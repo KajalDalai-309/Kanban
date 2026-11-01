@@ -159,7 +159,22 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
   const { actions, state } = ws;
   const [selectedId, setSelectedId] = useState(null);
   const [side, setSide] = useState('activity');
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    try {
+      return localStorage.getItem('kanban.sidebar') !== 'false';
+    } catch {
+      return true;
+    }
+  });
   const [dialog, setDialog] = useState(null);
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => {
+      const next = !prev;
+      try { localStorage.setItem('kanban.sidebar', String(next)); } catch {}
+      return next;
+    });
+  };
 
   const isAdmin = atLeastAdmin(tenant.role);
   const selected = selectedId ? state.tasks[selectedId] : null;
@@ -209,6 +224,13 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
           <button className="btn btn-sm" onClick={actions.undo} disabled={!ws.canUndo} title={ws.undoLabel ? `Undo ${ws.undoLabel}` : 'Nothing to undo'}>↶ Undo</button>
           <button className="btn btn-sm" onClick={actions.redo} disabled={!ws.canRedo} title={ws.redoLabel ? `Redo ${ws.redoLabel}` : 'Nothing to redo'}>↷ Redo</button>
           <PresenceBar presence={ws.presence} connection={ws.connection} pending={ws.pending} />
+          <button
+            className={`btn btn-sm ${sidebarOpen ? '' : 'btn-primary'}`}
+            onClick={toggleSidebar}
+            title={sidebarOpen ? 'Minimize sidebar' : 'Show Activity & Members'}
+          >
+            {sidebarOpen ? 'Hide sidebar ❯' : '❮ Activity & Members'}
+          </button>
         </div>
       </div>
 
@@ -231,28 +253,48 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
           />
         )}
 
-        <aside className="sidebar">
-          <div className="tabs" role="tablist">
-            {['activity', 'members'].map((t) => (
-              <button key={t} role="tab" aria-selected={side === t} className={side === t ? 'active' : ''} onClick={() => setSide(t)}>
-                {t === 'activity' ? 'Activity' : `Members (${ws.members.length})`}
+        {sidebarOpen ? (
+          <aside className="sidebar">
+            <div className="tabs" role="tablist">
+              {['activity', 'members'].map((t) => (
+                <button key={t} role="tab" aria-selected={side === t} className={side === t ? 'active' : ''} onClick={() => setSide(t)}>
+                  {t === 'activity' ? 'Activity' : `Members (${ws.members.length})`}
+                </button>
+              ))}
+              <button
+                className="icon-btn sidebar-close-btn"
+                onClick={toggleSidebar}
+                title="Minimize sidebar"
+                aria-label="Minimize sidebar"
+              >
+                ✕
               </button>
-            ))}
-          </div>
-          {side === 'activity' ? (
-            <ActivityFeed items={ws.activity} done={ws.activityDone} onLoadMore={actions.loadMoreActivity} />
-          ) : (
-            <MembersPanel
-              members={ws.members}
-              presence={ws.presence}
-              canManage={isAdmin}
-              currentUserId={user.id}
-              onAdd={actions.addMember}
-              onRole={actions.changeMemberRole}
-              onRemove={actions.removeMember}
-            />
-          )}
-        </aside>
+            </div>
+            {side === 'activity' ? (
+              <ActivityFeed items={ws.activity} done={ws.activityDone} onLoadMore={actions.loadMoreActivity} />
+            ) : (
+              <MembersPanel
+                members={ws.members}
+                presence={ws.presence}
+                canManage={isAdmin}
+                currentUserId={user.id}
+                onAdd={actions.addMember}
+                onRole={actions.changeMemberRole}
+                onRemove={actions.removeMember}
+              />
+            )}
+          </aside>
+        ) : (
+          <button
+            className="sidebar-collapsed-strip"
+            onClick={toggleSidebar}
+            title="Expand Activity & Members"
+            aria-label="Expand Activity & Members"
+          >
+            <span className="strip-icon">❮</span>
+            <span className="strip-label">{side === 'activity' ? 'Activity' : `Members (${ws.members.length})`}</span>
+          </button>
+        )}
       </div>
 
       {selected && (
