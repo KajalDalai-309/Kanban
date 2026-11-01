@@ -253,7 +253,7 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
           />
         )}
 
-        {sidebarOpen ? (
+        {sidebarOpen && (
           <aside className="sidebar">
             <div className="tabs" role="tablist">
               {['activity', 'members'].map((t) => (
@@ -290,16 +290,6 @@ function Workspace({ tenant, user, toast, onAccessLost }) {
               />
             )}
           </aside>
-        ) : (
-          <button
-            className="sidebar-collapsed-strip"
-            onClick={toggleSidebar}
-            title="Expand Activity & Members"
-            aria-label="Expand Activity & Members"
-          >
-            <span className="strip-icon">❮</span>
-            <span className="strip-label">{side === 'activity' ? 'Activity' : `Members (${ws.members.length})`}</span>
-          </button>
         )}
       </div>
 
